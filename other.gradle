@@ -1,0 +1,5 @@
+ext {
+    url = 'https://example.com'
+    age = 10
+    myVersion = '12'
+}

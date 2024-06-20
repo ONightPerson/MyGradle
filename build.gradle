@@ -1,0 +1,158 @@
+/**************** 任务创建 ******************/
+task hello  {
+	doLast {
+		println 'Hello world!'
+	}
+}
+
+def Task Type1Task = task(type1Task)
+type1Task.doLast {
+	println 'type1Task'
+}
+
+// 其中group为任务配置项，它代表了分组
+def Task Type2Task = task(type2Task, group:BasePlugin.BUILD_GROUP)
+type2Task.doLast {
+	println 'type2Task'
+}
+
+// tasks类型为TaskContainer
+tasks.create(name: 'type3Task')  {
+	doLast {
+		println 'type3Task'
+	}
+}
+
+/**************** 任务依赖 ******************/
+task go(dependsOn: type1Task) {
+	doLast {
+		println 'go for it'
+	}
+}
+
+/**************** 动态定义任务 ******************/
+3.times {
+	p -> task "task$p" {
+		doLast {
+			println "task $p"
+		}
+	}
+}
+
+/**************** 任务的分组和描述 ******************/
+task groupTask {
+	group = 'build'
+	description = 'hello world'
+    doLast {
+    	println "任务分组: ${group}"
+      println "任务描述: ${description}"
+			def p = new Person()
+			p.increaseAge(5)
+			println p.age
+    }
+}
+
+task goGroupTask(dependsOn: groupTask) {
+	doLast {
+    println "go for it"
+	}
+}
+
+/**************** groovy语法 ******************/
+class Person {
+	String name
+	int age = 5
+	def increaseAge(int years) {
+		this.age += years
+	}
+}
+
+task assertTask << {
+	assert 1+2 ==6
+}
+
+task switchTask << {
+	def p = 40
+	def result = ''
+	switch (p) {
+		case 1..20:
+			result = 'range'
+			break
+		case 'ok':
+			result = 'found ok'
+			break
+		case Integer:
+			result = 'integer'
+			break
+		case [1, 2, 4]:
+			result = 'found list'
+			break
+		default:
+			result = 'default'
+	}
+	assert result == 'integer'
+}
+
+task GStringTask << {
+	def num = 3;
+	println "${num}"
+	assert "3".hashCode() == "${num}".hashCode()
+}
+
+task listTask << {
+	def list = [1, 2, 3]
+	list << 4
+	println list[-1]
+}
+
+task mapTask << {
+	def person = [one: '魏无羡', two: '杨颖风', three: '张无忌']
+	println person['one']
+	println person.two
+	// Map的键关联问题
+	def age = 'name'
+	def student = [age: 20]
+	println student.containsKey('age')
+	student = [(age): '杨超越']
+	println student.containsKey('name')
+}
+
+task closureTask << {
+	def out = {println it}
+	out('hello')
+}
+
+task fileReadTask << {
+	def file = new File('/Users/liubaozhu/Documents/脚本/to_be_added_ent_id.txt')
+	println file.text
+}
+
+/**************** gradle wrapper ******************/
+// gradle wrapper --gradle-version 7.0 --distribution-type all
+
+/**************** gradle plugin ******************/
+apply from: 'other.gradle'
+task applyTest {
+	doLast {
+		println "地址为：${url}, 年龄为 ${age}，版本为${myVersion}"
+	}
+}
+
+apply plugin:CustomPlugin
+class CustomPluginExtension {
+	String message = 'from CustomPluginExtension'
+}
+class CustomPlugin implements Plugin<Project> {
+    @Override
+    void apply(Project project) {
+			def extension = project.extensions.create('custom', CustomPluginExtension)
+        project.task('CustomPluginTask') {
+            doLast {
+                println extension.message
+            }
+        }
+    }
+}
+custom.message = '自定义插件拓展'
+apply plugin: MyPlugin
+
