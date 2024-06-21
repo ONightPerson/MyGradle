@@ -156,3 +156,19 @@ class CustomPlugin implements Plugin<Project> {
 custom.message = '自定义插件拓展'
 apply plugin: MyPlugin
 
+
+/**************** 在项目中使用CustomPluginShare插件 ******************/
+apply plugin: 'com.example.plugins.customplugin'
+
+buildscript {
+	repositories {
+		maven {
+			url uri('repo')
+		}
+	}
+
+	dependencies {
+		classpath 'com.example.plugins:CustomPluginShare:1.0.0'
+	}
+}
+

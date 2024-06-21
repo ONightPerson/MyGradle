@@ -2,3 +2,6 @@
 .vscode
 /repo
 build
+CustomPluginShare/build
+buildSrc/.gradle
+CustomPluginShare/.gradle
