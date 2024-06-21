@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
+<<<<<<< HEAD
   <info organisation="com.example.plugins" module="CustomPluginShare" revision="1.0.0" status="integration" default="true" publication="20240621103124"/>
+=======
+  <info organisation="com.example.plugins" module="CustomPluginShare" revision="1.0.0" status="integration" default="true" publication="20240621103437"/>
+>>>>>>> eba32ac (something)
   <configurations>
     <conf name="apiElements" visibility="private" extends="runtime"/>
     <conf name="archives" visibility="public"/>
