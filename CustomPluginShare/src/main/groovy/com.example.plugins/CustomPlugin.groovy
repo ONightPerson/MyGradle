@@ -7,7 +7,7 @@ class CustomPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        project.task('CustomPluginTask') {
+        project.task('CustomPluginShareTask') {
             doLast {
                 println '自定义插件'
             }
